@@ -108,3 +108,16 @@ CHANNEL_LAYERS = {
 
 # Custom user if you intend to use one later:
 AUTH_USER_MODEL = "users.User"
+
+
+# Redis cache
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://localhost:6379/1",  # change if using Docker
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+        "KEY_PREFIX": "social_feed",
+    }
+}

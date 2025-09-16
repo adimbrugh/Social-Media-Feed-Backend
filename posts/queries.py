@@ -1,35 +1,27 @@
 import graphene
-from graphene_django.filter import DjangoFilterConnectionField
-from .types import PostType
-from graphene import relay
 from .models import Post
+from .types import PostType
+from utils.cache import get_cache, set_cache
 
-
-
-class PostNode(PostType, graphene.relay.Node):
-    class Meta:
-        model = Post
-        interfaces = (relay.Node,)
 
 
 class PostQueries(graphene.ObjectType):
-    all_posts = graphene.List(PostType, first=graphene.Int(), offset=graphene.Int())
-    post_by_id = graphene.Field(PostType, id=graphene.Int(required=True))
-    posts_by_author = graphene.List(PostType, author_id=graphene.Int(required=True))
+    feed = graphene.List(PostType, first=graphene.Int(), offset=graphene.Int())
 
-    def resolve_all_posts(self, info, first=None, offset=None):
-        qs = Post.objects.select_related("author").prefetch_related("comments")
+    def resolve_feed(self, info, first=None, offset=None):
+        cache_key = "feed_cache"
+        feed_data = get_cache(cache_key)
+        if feed_data:
+            return feed_data  # return cached feed
+
+        qs = Post.objects.select_related("author").prefetch_related("comments", "interactions").order_by("-created_at")
         if offset:
             qs = qs[offset:]
         if first:
             qs = qs[:first]
-        return qs.order_by("-created_at")
 
-    def resolve_post_by_id(self, info, id):
-        try:
-            return Post.objects.get(pk=id)
-        except Post.DoesNotExist:
-            return None
+        # cache the feed (convert to list of dicts)
+        feed_list = list(qs)
+        set_cache(cache_key, [p.id for p in feed_list], timeout=60)  # cache IDs only
 
-    def resolve_posts_by_author(self, info, author_id):
-        return Post.objects.filter(author__id=author_id).order_by("-created_at")
+        return feed_list
