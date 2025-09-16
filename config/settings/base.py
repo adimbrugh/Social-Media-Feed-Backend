@@ -27,6 +27,9 @@ INSTALLED_APPS = [
     "graphene_django",
     "django_filters",
     "channels",
+    
+    # local apps
+    "users.apps.UsersConfig",
 ]
 
 MIDDLEWARE = [
@@ -104,4 +107,4 @@ CHANNEL_LAYERS = {
 }
 
 # Custom user if you intend to use one later:
-# AUTH_USER_MODEL = "users.User"
+AUTH_USER_MODEL = "users.User"
