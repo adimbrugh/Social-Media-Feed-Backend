@@ -1,0 +1,14 @@
+*.pyc
+__pycache__/
+.env
+.env.*.local
+.venv/
+venv/
+.idea/
+.vscode/
+*.sqlite3
+/media/
+.DS_Store
+coverage/
+htmlcov/
+node_modules/
