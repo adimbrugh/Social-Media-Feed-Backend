@@ -12,6 +12,7 @@ class CommentType(DjangoObjectType):
 
 class PostType(DjangoObjectType):
     likes_count = graphene.Int()
+    shares_count = graphene.Int()
     comments_count = graphene.Int()
 
     class Meta:
@@ -19,8 +20,10 @@ class PostType(DjangoObjectType):
         fields = ("id", "title", "content", "author", "created_at", "updated_at")
 
     def resolve_likes_count(self, info):
-        # interactions app may implement likes; fallback 0 if relation absent
         return getattr(self, "likes_count", lambda: 0)()
+    
+    def resolve_shares_count(self, info):
+        return getattr(self, "shares_count", lambda: 0)()
 
     def resolve_comments_count(self, info):
         return self.comments.count()
