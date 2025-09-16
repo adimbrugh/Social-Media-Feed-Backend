@@ -35,3 +35,4 @@ class InteractionTests(TestCase):
         self.assertEqual(resp.status_code, 200)
         data = resp.json()
         assert data["data"]["addInteraction"]["interaction"]["type"] == "LIKE"
+

@@ -27,3 +27,4 @@ class PostType(DjangoObjectType):
 
     def resolve_comments_count(self, info):
         return self.comments.count()
+

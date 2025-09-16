@@ -8,3 +8,4 @@ class InteractionType(DjangoObjectType):
     class Meta:
         model = Interaction
         fields = ("id", "user", "post", "type", "created_at")
+

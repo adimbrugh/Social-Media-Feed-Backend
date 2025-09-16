@@ -22,4 +22,5 @@ class Query(UserSchema, PostSchema, InteractionSchema, graphene.ObjectType):
 class Mutation(UserSchema, PostSchema, InteractionSchema, graphene.ObjectType):
     pass
 
+
 schema = graphene.Schema(query=Query, mutation=Mutation)

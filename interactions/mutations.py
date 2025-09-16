@@ -47,3 +47,4 @@ class RemoveInteraction(graphene.Mutation):
 class InteractionMutations(graphene.ObjectType):
     add_interaction = AddInteraction.Field()
     remove_interaction = RemoveInteraction.Field()
+

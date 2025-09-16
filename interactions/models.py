@@ -20,3 +20,4 @@ class Interaction(models.Model):
 
     def __str__(self):
         return f"{self.user.username} {self.type}d Post {self.post.id}"
+

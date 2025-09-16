@@ -6,3 +6,4 @@ from .mutations import InteractionMutations
 
 class InteractionSchema(InteractionQueries, InteractionMutations, graphene.ObjectType):
     pass
+

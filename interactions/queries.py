@@ -17,3 +17,4 @@ class InteractionQueries(graphene.ObjectType):
 
     def resolve_interactions_by_user(self, info, user_id):
         return Interaction.objects.filter(user_id=user_id).select_related("post")
+
