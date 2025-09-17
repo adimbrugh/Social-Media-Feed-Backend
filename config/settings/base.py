@@ -27,9 +27,13 @@ INSTALLED_APPS = [
     "graphene_django",
     "django_filters",
     "channels",
+    "channels_redis",
+    "graphene-subscriptions",
     
     # local apps
     "users.apps.UsersConfig",
+    'posts.apps.PostsConfig',
+    "interactions.apps.InteractionsConfig",
 ]
 
 MIDDLEWARE = [
