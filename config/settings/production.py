@@ -7,6 +7,10 @@ DEBUG = False
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", ".railway.app,localhost,127.0.0.1").split(",") if os.environ.get("ALLOWED_HOSTS") else ["social-media-feed-backend-production.up.railway.app"]
 
 
+SECURE_SSL_REDIRECT = True
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+
 # add security settings:
 SECURE_SSL_REDIRECT = True
 SESSION_COOKIE_SECURE = True
