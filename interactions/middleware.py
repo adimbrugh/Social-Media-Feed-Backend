@@ -1,5 +1,6 @@
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 from rest_framework_simplejwt.tokens import UntypedToken
+from django.utils.module_loading import import_string
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.auth import get_user_model
 from channels.db import database_sync_to_async
@@ -18,7 +19,10 @@ def _get_user_from_id(user_id):
     except Exception:
         return None
 
-
+if settings.configured:
+    from rest_framework_simplejwt.tokens import UntypedToken
+    
+    
 class TokenAuthMiddleware:
     def __init__(self, inner):
         self.inner = inner
