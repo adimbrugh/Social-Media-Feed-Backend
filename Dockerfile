@@ -11,7 +11,7 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 
 COPY . /app/
 
-RUN python manage.py migrate --noinput
+# Collect static files only
 RUN python manage.py collectstatic --noinput
 
 CMD ["daphne", "-b", "0.0.0.0", "-p", "8000", "config.asgi:application"]
