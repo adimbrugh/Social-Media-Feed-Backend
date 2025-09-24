@@ -20,7 +20,6 @@ COPY . /app/
 
 # Collect static files only
 #RUN python manage.py collectstatic --noinput
-
 # Run migrations
 #RUN python manage.py migrate --noinput
 
