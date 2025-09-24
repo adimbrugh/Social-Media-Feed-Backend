@@ -7,6 +7,89 @@ For more information on this file, see
 https://docs.djangoproject.com/en/5.2/howto/deployment/asgi/
 """
 
+import os
+import django
+from channels.routing import ProtocolTypeRouter, URLRouter
+from django.core.asgi import get_asgi_application
+
+
+
+# Set settings module before any Django import
+os.environ.setdefault(
+    "DJANGO_SETTINGS_MODULE",
+    "config.settings.production" if os.environ.get("DJANGO_ENV") == "production" else "config.settings.local"
+)
+
+
+# Initialize Django
+django.setup()
+
+
+# Standard Django ASGI application
+django_asgi_app = get_asgi_application()
+
+
+# Import TokenAuthMiddleware and routing AFTER Django is ready
+from interactions.middleware import TokenAuthMiddleware
+import interactions.routing
+
+
+application = ProtocolTypeRouter({
+    "http": django_asgi_app,
+    "websocket": TokenAuthMiddleware(
+        URLRouter(interactions.routing.websocket_urlpatterns)
+    ),
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"""
 from channels.routing import ProtocolTypeRouter, URLRouter
 from interactions.middleware import TokenAuthMiddleware
 from django.core.asgi import get_asgi_application
@@ -25,11 +108,17 @@ else:
     django.setup()
 
     
+# Standard Django ASGI application
+django_asgi_app = get_asgi_application()
+    
     
 application = ProtocolTypeRouter({
-    "http": get_asgi_application(),
+    "http": django_asgi_app,
     "websocket": TokenAuthMiddleware(
-        URLRouter(interactions.routing.websocket_urlpatterns)
+        URLRouter(
+            interactions.routing.websocket_urlpatterns
+        )
     ),
 })
     
+"""
