@@ -4,7 +4,7 @@ from .base import *
 
 DEBUG = False
 #ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["yourdomain.com"])
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "").split(",") if os.environ.get("ALLOWED_HOSTS") else ["your-production-host"]
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", ".railway.app,localhost,127.0.0.1").split(",") if os.environ.get("ALLOWED_HOSTS") else ["social-media-feed-backend-production.up.railway.app"]
 
 
 # add security settings:
