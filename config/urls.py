@@ -15,12 +15,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-
 from django.views.decorators.csrf import csrf_exempt
 from graphene_django.views import GraphQLView
-#from utils.errors import graphql_format_error
 import config.schema as schema_module
-#from utils.errors import as_json_error
 from django.http import JsonResponse
 from django.contrib import admin
 from django.urls import path
@@ -28,12 +25,12 @@ from django.urls import path
 
 
 def health(request):
-    return JsonResponse({"status": "ok"})
+    return JsonResponse({"status": "ok", "message": "Social Media Feed Backend running smoothly."})
 
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("graphql/", csrf_exempt(GraphQLView.as_view(graphiql=True, schema=schema_module.schema))),
-    #path("graphql/", GraphQLView.as_view(graphiql=True, format_error=graphql_format_error)),
     path("health/", health),
+    path("", health),
 ]
