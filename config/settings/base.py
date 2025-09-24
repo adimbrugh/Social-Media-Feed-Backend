@@ -1,4 +1,5 @@
 from pathlib import Path
+import dj_database_url
 import environ
 import os
 
@@ -40,6 +41,10 @@ INSTALLED_APPS = [
     "channels_redis",
     "django_redis",
     "rest_framework",
+    "rest_framework.authtoken",
+    "rest_framework_simplejwt",
+    "graphql_jwt.refresh_token.apps.RefreshTokenConfig",
+    "whitenoise.runserver_nostatic",
     
     # local apps
     "users.apps.UsersConfig",
@@ -50,6 +55,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware", # for serving static files in production
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -59,6 +65,7 @@ MIDDLEWARE = [
 ]
 
 
+# URL configuration
 ROOT_URLCONF = "config.urls"
 
 
@@ -83,10 +90,11 @@ ASGI_APPLICATION = "config.asgi.application"
 
 
 # Default database (can be overridden in local.py / production.py)
-DATABASES = {}
-#DATABASES = {
-#    "default": env.db("DATABASE_URL", default="postgres://postgres:postgres@db:5432/socialfeed")
-#}
+DATABASES = {
+    "default": dj_database_url.config(
+        default=os.environ.get("postgresql://postgres:pFIsYZUnixmvdXVwsDloQaHWPtffQKVS@postgres.railway.internal:5432/railway")
+    )
+}
 
 
 # Password validation (keep defaults)
@@ -105,10 +113,13 @@ USE_I18N = True
 USE_TZ = True
 
 
+# Static and media files
 STATIC_URL = "/static/"
-STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
+# Media files (user uploads)
 MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
@@ -123,6 +134,7 @@ GRAPHENE = {
 }
 
 
+# Authentication backends (including JWT)
 AUTHENTICATION_BACKENDS = [
     "graphql_jwt.backends.JSONWebTokenBackend",
     "django.contrib.auth.backends.ModelBackend",
@@ -155,6 +167,7 @@ CACHES = {
 }
 
 
+# Django REST Framework
 REST_FRAMEWORK = {
     "DEFAULT_THROTTLE_CLASSES": [
         "rest_framework.throttling.UserRateThrottle",
@@ -165,9 +178,18 @@ REST_FRAMEWORK = {
 }
 
 
+# Logging (basic console)
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
     "handlers": {"console": {"class": "logging.StreamHandler"}},
     "root": {"handlers": ["console"], "level": "WARNING"},
+}
+
+
+# Static files storage with WhiteNoise
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    }
 }

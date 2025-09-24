@@ -32,5 +32,5 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("graphql/", csrf_exempt(GraphQLView.as_view(graphiql=True, schema=schema_module.schema))),
     path("health/", health),
-    path("", health),
+    #path("", health),
 ]

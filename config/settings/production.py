@@ -1,4 +1,5 @@
 from .base import *
+import dj_database_url
 
 
 
@@ -32,6 +33,13 @@ DATABASES = {
 
 CACHES["default"]["LOCATION"] = env("REDIS_URL")
 """
+
+
+DATABASES = {
+    "default": dj_database_url.config(
+        default=os.environ.get("postgresql://postgres:pFIsYZUnixmvdXVwsDloQaHWPtffQKVS@postgres.railway.internal:5432/railway")
+    )
+}
 
 
 DATABASES = {
