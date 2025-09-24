@@ -19,7 +19,7 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 COPY . /app/
 
 # Collect static files only
-RUN python manage.py collectstatic --noinput
+RUN python manage.py collectstatic migrate --noinput
 
 # Expose the port the app runs on
 EXPOSE 8000
