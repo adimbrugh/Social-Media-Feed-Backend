@@ -18,8 +18,7 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 # Copy project files
 COPY . /app/
 
-# Collect static files and apply migrations
-RUN python manage.py migrate --noinput
+# Collect static files only
 RUN python manage.py collectstatic --noinput
 
 # Expose the port the app runs on
