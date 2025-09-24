@@ -17,17 +17,13 @@ import os
 
 
 # Auto-detect environment
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.production")
-django.setup()
-
-"""
 if os.environ.get("DJANGO_ENV") == "production":
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.production")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.settings.production")
     django.setup()
 else:
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.local")
     django.setup()
-"""
+
     
     
 application = ProtocolTypeRouter({
