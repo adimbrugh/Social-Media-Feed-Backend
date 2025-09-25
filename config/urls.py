@@ -25,12 +25,17 @@ from django.urls import path
 
 
 def health(request):
-    return JsonResponse({"status": "ok", "message": "Social Media Feed Backend running smoothly."})
+    return JsonResponse({"status": "ok", "message": "Social Media Feed Backend running smoothly."}, status=200)
+
+def not_found(request):
+    return JsonResponse({"status": "error", "message": "The requested resource was not found.", "try": "Admin/, GraphQL/, Health/", }, status=404)
+
 
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("graphql/", csrf_exempt(GraphQLView.as_view(graphiql=True, schema=schema_module.schema))),
     path("health/", health),
+    path("", not_found),
     #path("", health),
 ]
