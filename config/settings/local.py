@@ -6,6 +6,15 @@ DEBUG = True
 # dev-specific overrides 
 
 
+# Static and media files
+STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
+# Media files (user uploads)
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+
 # Local DB (SQLite by default for dev)
 DATABASES = {
         "default": {
