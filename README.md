@@ -134,6 +134,7 @@ query {
         }
         likesCount
         commentsCount
+        sharesCount
       }
     }
   }
@@ -185,6 +186,14 @@ ws.onmessage = (event) => {
 };
 ```
 
+subscription {
+  notifications {
+    text
+    postId
+    interactionType
+  }
+}
+
 Notification types:
 - `POST_LIKED`
 - `NEW_COMMENT`
@@ -196,13 +205,38 @@ Notification types:
 ## Project Structure
 
 ```
-├── config/                # Project configuration
-├── docs/                  # Architecture/ERD
-├── users/                 # User management
-├── posts/                 # Post functionality
-├── interactions/          # Likes, comments, notifications
-├── utils/                 # Shared utilities
-└── tests/                 # Test suite
+Social-Media-Feed-Backend/
+├── config/ # Project Configuration
+│ ├── asgi.py # ASGI entry point
+│ ├── schema.py # Root GraphQL schema (combines all app schemas)
+│ ├── urls.py # URL routing (GraphQL view, health endpoint)
+│ └── settings/ # Settings hierarchy
+│ ├── base.py # Base settings
+│ ├── local.py # Development settings (InMemory cache/channels)
+│ └── production.py # Production settings (Redis cache/channels)
+│
+├── users/ # User Management
+│ ├── models.py # Custom User model
+│ ├── schema.py # User GraphQL schema
+│ ├── mutations.py # User mutations (create, update)
+│ └── types.py # User GraphQL types
+│
+├── posts/ # Post Management
+│ ├── models.py # Post & Comment models
+│ ├── schema.py # Post GraphQL schema
+│ ├── signals.py # Cache invalidation signals
+│ └── types.py # Post GraphQL types
+│
+├── interactions/ # User Interactions & Real-time
+│ ├── consumers.py # WebSocket consumers
+│ ├── middleware.py # JWT auth for WebSocket
+│ ├── models.py # Interaction model (likes/comments)
+│ ├── routing.py # WebSocket URL routing
+│ └── signals.py # Notification signals
+│
+└── utils/ # Shared Utilities
+├── errors.py # Error handling & formatting
+└── cache.py # Cache management
 ```
 
 ---
