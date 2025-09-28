@@ -51,6 +51,7 @@ pip install -r requirements.txt
 ```bash
 cp .env.example .env
 # Edit .env with your settings
+
 ```
 
 4. **Run migrations:**
