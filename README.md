@@ -188,15 +188,11 @@ ws.onmessage = (event) => {
 ```
 
 subscription {
-
   notifications {
-
-  text
+    text
     postId
     interactionType
-
   }
-
 }
 
 Notification types:
